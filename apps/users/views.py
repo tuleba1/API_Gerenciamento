@@ -1,19 +1,19 @@
 from apps.users import permissions
-from rest_framework import viewsets
+from rest_framework import viewsets, generics, permissions
 from django.contrib.auth import get_user_model
-from .serializers import UserSerializer, UserDetailSerializer, UserUpdateSerializer
+from .serializers import (UserSerializer, UserDetailSerializer, UserUpdateSerializer, )
 
 # Create your views here.
 
 User = get_user_model()
 
-class UserCreateView(generisc.CreateAPIView):
+class UserCreateView(generics.CreateAPIView):
     """
     Endpoint para cadastrar novos usuários.
     """
 
     queryset = User.objects.all()
-    serializer_class = userCreateSerializer
+    serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny]
 
 class UserListView(generics.ListAPIView):
