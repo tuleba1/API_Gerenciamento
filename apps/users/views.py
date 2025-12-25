@@ -1,51 +1,76 @@
-from apps.users import permissions
-from rest_framework import viewsets, generics, permissions
+from rest_framework import generics, permissions
 from django.contrib.auth import get_user_model
-from .serializers import (UserSerializer, UserDetailSerializer, UserUpdateSerializer, )
+from .serializers import (
+    UserSerializer,
+    UserDetailSerializer,
+    UserUpdateSerializer,
+)
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework import status
 
-# Create your views here.
+
 
 User = get_user_model()
+
 
 class UserCreateView(generics.CreateAPIView):
     """
     Endpoint para cadastrar novos usuários.
     """
-
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny]
 
+
 class UserListView(generics.ListAPIView):
     """
     Endpoint para listar todos os usuários.
-    (Apenas administradores podem acessar)
+    (Apenas administradores)
     """
-
     queryset = User.objects.all()
     serializer_class = UserDetailSerializer
     permission_classes = [permissions.IsAdminUser]
 
+
+class UserDetailView(generics.RetrieveAPIView):
+    """
+    Endpoint para exibir detalhes de um usuário específico.
+    """
+    queryset = User.objects.all()
+    serializer_class = UserDetailSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
 class UserMeView(generics.RetrieveAPIView):
     """
-    Retorno de dados de usuários autenticados.
+    Retorna os dados do usuário autenticado.
     """
-
     serializer_class = UserDetailSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user
+
+
+class UserUpdateView(generics.UpdateAPIView):
+    """
+    Atualiza os dados do usuário autenticado.
+    """
+    serializer_class = UserUpdateSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_object(self):
         return self.request.user
     
 
-class UserUpdateView(generics.UpdateAPIView):
-    """
-    Atualiza os dados de usuários autenticados.
-    (O usuário só pode atualizar seus próprios dados)
-    """
 
-    serializer_class = UserUpdateSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_object(self):
-        return self.request.user
+class UserDeleteView(APIView):
+    """
+    Deleta o usuário autenticado.
+    """
+    def delete(self, request):
+        user = request.user
+        user.delete()
+        return Response({"Usuário excluído com sucesso!"}, status=status.HTTP_204_NO_CONTENT)

@@ -39,7 +39,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = User
-        fields = ('email')
+        fields = ('first_name', 'last_name', 'email')
 
 
     def validate_email(self, value):
@@ -48,6 +48,14 @@ class UserUpdateSerializer(serializers.ModelSerializer):
         """
 
         user = self.instance
-        if User.objects.exclude(pk=user.pk).filter(email=value).exists():
-            raise serializers.ValidationError("Este email já está em uso.")
+        if (
+            User.objects
+            .exclude(id=user.id)
+            .filter(email=value)
+            .exists()
+        ):
+            raise serializers.ValidationError(
+                "Usuário com este email já existe."
+            )
+
         return value
