@@ -97,4 +97,4 @@ Os endpoints foram testados utilizando **Postman**, validando:
 
 ### 1️⃣ Clone o repositório
 ```bash
-git clone https://github.com/seu-usuario/seu-repositorio.git
+git@github.com:tuleba1/API_Gerenciamento.git
