@@ -99,6 +99,8 @@ Os endpoints foram testados utilizando **Postman**, validando:
 ```bash
 git@github.com:tuleba1/API_Gerenciamento.git
 
+---
+
 ### 2️⃣ Crie o ambiente virtual
 
 python -m venv venv
