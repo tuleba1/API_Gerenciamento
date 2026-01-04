@@ -24,7 +24,6 @@ O projeto foi construído com o objetivo de estudo, portfólio e aplicação rea
 ├──📁 apps/
 │ ├── 📁users/ # Usuários e perfil
 │ ├──📁 auth/ # Autenticação e JWT
-│ └──📁 faturas/ # Regra de negócio principal
 │
 ├── 📁core/ # Configurações globais
 ├── </> manage.py
@@ -96,5 +95,38 @@ Os endpoints foram testados utilizando **Postman**, validando:
 ## ⚙️ Como Executar o Projeto
 
 ### 1️⃣ Clone o repositório
+
 ```bash
 git@github.com:tuleba1/API_Gerenciamento.git
+
+### 2️⃣ Crie o ambiente virtual
+
+python -m venv venv
+source venv/bin/activate  # Linux/macOS
+venv\Scripts\activate     # Windows
+
+### 3️⃣ Instale as dependências
+
+pip install -r requirements.txt
+
+### 4️⃣ Configure as variáveis de ambiente
+
+Crie um arquivo .env:
+
+SECRET_KEY=your_secret_key
+DEBUG=True
+
+### 5️⃣ Rode as migrações
+
+python manage.py migrate
+
+### 6️⃣ Inicie o servidor
+
+python manage.py runserver
+
+📌 Status do Projeto
+
+✅ Backend funcional
+✅ Endpoints testados
+✅ Autenticação segura
+🚧 Possíveis melhorias futuras
