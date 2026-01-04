@@ -59,3 +59,10 @@ class UserUpdateSerializer(serializers.ModelSerializer):
             )
 
         return value
+    
+    class ChangePasswordSerializer(serializers.Serializer):
+        """
+        Serializer para alterar a senha do usuário.
+        """
+        old_password = serializers.CharField(write_only=True, required=True)
+        new_password = serializers.CharField(write_only=True, required=True, min_length=8)

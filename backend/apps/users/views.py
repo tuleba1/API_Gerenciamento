@@ -74,3 +74,28 @@ class UserDeleteView(APIView):
         user = request.user
         user.delete()
         return Response({"Usuário excluído com sucesso!"}, status=status.HTTP_204_NO_CONTENT)
+    
+    
+class ChangePasswordView(APIView):
+    """
+    Endpoint para alterar a senha do usuário autenticado.
+    """
+
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request):
+       serializer = ChangePasswordSerializer(data=request.data)
+       serializer.is_valid(raise_exception=True)
+
+       user = request.user
+
+       if not user.check_password(serializer.validated_data['old_password']):
+           return Response(
+               {"old_password": ["Senha atual incorreta."]},
+               status=status.HTTP_400_BAD_REQUEST
+           )
+       
+       user.set_password(serializer.validated_data['new_password'])
+       user.save()
+
+       return Response({"message" : "Senha alterada com sucesso."}, status=status.HTTP_200_OK)
