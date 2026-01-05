@@ -55,11 +55,10 @@ A autenticação é feita utilizando **JWT (JSON Web Token)**.
 
 | Método | Endpoint | Descrição |
 |------|--------|----------|
-| POST | `/api/auth/create/` | Registro de usuário |
-| POST | `/api/auth/login/` | Login e geração de tokens |
-| POST | `/api/auth/refresh/` | Refresh do token |
-| POST | `/api/auth/logout/` | Logout |
-| PUT  | `/api/auth/change-password/` | Alteração de senha |
+| POST | `/api/users/create/` | Registro de usuário |
+| POST | `/api/token/` | Login e geração de tokens |
+| POST | `/api/token/refresh/` | Refresh do token |
+
 
 ---
 
@@ -69,6 +68,7 @@ A autenticação é feita utilizando **JWT (JSON Web Token)**.
 |------|--------|----------|
 | GET | `/api/users/me/` | Dados do usuário autenticado |
 | PUT | `/api/users/me/` | Atualização de perfil |
+| PUT  | `/api/users/change-password/` | Alteração de senha |
 | DELETE | `/api/users/me/` | Exclusão da conta |
 
 ---
