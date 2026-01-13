@@ -5,6 +5,7 @@ from .serializers import (
     UserDetailSerializer,
     UserUpdateSerializer,
 )
+from django.contrib.auth.password_validation import validate_password
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -77,25 +78,34 @@ class UserDeleteView(APIView):
     
     
 class ChangePasswordView(APIView):
-    """
-    Endpoint para alterar a senha do usuário autenticado.
-    """
-
     permission_classes = [IsAuthenticated]
 
     def put(self, request):
-       serializer = ChangePasswordSerializer(data=request.data)
-       serializer.is_valid(raise_exception=True)
+        user = request.user
+        old_password = request.data.get("old_password")
+        new_password = request.data.get("new_password")
 
-       user = request.user
+        if not old_password or not new_password:
+            return Response(
+                {"detail": "old_password e new_password são obrigatórios."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
-       if not user.check_password(serializer.validated_data['old_password']):
-           return Response(
-               {"old_password": ["Senha atual incorreta."]},
-               status=status.HTTP_400_BAD_REQUEST
-           )
-       
-       user.set_password(serializer.validated_data['new_password'])
-       user.save()
+        if not user.check_password(old_password):
+            return Response(
+                {"detail": "Senha atual incorreta."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
-       return Response({"message" : "Senha alterada com sucesso."}, status=status.HTTP_200_OK)
+        if old_password == new_password:
+            return Response(
+                {"detail": "A nova senha não pode ser igual à senha atual."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        validate_password(new_password, user=user)
+
+        user.set_password(new_password)
+        user.save()
+
+        return Response({"detail": "Senha atualizada com sucesso."}, status=status.HTTP_200_OK)
