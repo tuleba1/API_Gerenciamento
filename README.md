@@ -8,7 +8,7 @@ O projeto foi construído com o objetivo de estudo, portfólio e aplicação rea
 
 ## 🚀 Tecnologias Utilizadas
 
-- Python 3.x
+- Python 3.14.2
 - Django
 - Django REST Framework (DRF)
 - Simple JWT
