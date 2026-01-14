@@ -13,7 +13,7 @@ O projeto foi construído com o objetivo de estudo, portfólio e aplicação rea
 - Django REST Framework (DRF)
 - Simple JWT
 - PostgreSQL (ou SQLite para testes)
-- Postman (testes de endpoints)
+- Insomnia (testes de endpoints)
 - dotenv (variáveis de ambiente)
 
 ---
@@ -86,7 +86,7 @@ A autenticação é feita utilizando **JWT (JSON Web Token)**.
 
 ## 🧪 Testes
 
-Os endpoints foram testados utilizando **Postman**, validando:
+Os endpoints foram testados utilizando **Insomnia**, validando:
 - Respostas HTTP corretas (200, 201, 400, 401, 403)
 - Autenticação via Bearer Token
 - Validação de erros e permissões
